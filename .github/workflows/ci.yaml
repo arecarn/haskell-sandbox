@@ -1,0 +1,31 @@
+---
+name: CI
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+
+jobs:
+  publish_docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: arecarn/c-and-cpp
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+  build:
+    needs: publish_docker
+    runs-on: ubuntu-18.04
+    container:
+      image: arecarn/c-and-cpp
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build & Test All Targets
+        run: make full

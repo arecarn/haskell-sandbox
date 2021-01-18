@@ -1,0 +1,2 @@
+# Enforce LF EOL character for all text files in repository and working copy
+* text=auto eol=lf
