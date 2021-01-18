@@ -1,5 +1,19 @@
 DOCKER_IMAGE_NAME ?= haskell-env
 
+.PHONY: default
+default: test
+
+# Other targets are passed into to the cabal
+%: Makefile
+	@set -o xtrace; \
+	cabal $@;
+
+# All the Makefiles read themselves get matched if a target exists for them, so
+# they will get matched by a Match anything target %:. This target is here
+# to prevent the %: Match-anything target from matching, and do nothing.
+Makefile:
+	;
+
 .PHONY: cbuild
 cbuild:
 	docker build --tag $(DOCKER_IMAGE_NAME) .
