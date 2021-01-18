@@ -3,10 +3,10 @@ DOCKER_IMAGE_NAME ?= haskell-env
 .PHONY: default
 default: test
 
-# Other targets are passed into to the cabal
+# Other targets are passed into to the stack
 %: Makefile
 	@set -o xtrace; \
-	cabal $@;
+	stack $@;
 
 # All the Makefiles read themselves get matched if a target exists for them, so
 # they will get matched by a Match anything target %:. This target is here

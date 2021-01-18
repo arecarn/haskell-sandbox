@@ -12,9 +12,11 @@ RUN apt install -y \
         x11-apps \
         gosu
 
-RUN apt install -y \
-        haskell-platform \
-        haskell-stack
+RUN echo "export PATH=$PATH" > /etc/environment
+
+RUN apt install -y curl && \
+        curl -sSL https://get.haskellstack.org/ | sh
+
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
